@@ -22,7 +22,7 @@ namespace gomoku.core
             {
                 case Color.Black: return " X ";
                 case Color.White: return " 0 ";
-                default: return " _ ";
+                default: return " - ";
             }
         }
     }

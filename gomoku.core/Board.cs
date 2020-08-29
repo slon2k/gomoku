@@ -84,9 +84,18 @@ namespace gomoku.core
 
         public void Print()
         {
+            var head = new StringBuilder();
+            head.Append("   ");
+            for (int j = 0; j < Size; j++)
+            {
+                head.Append($"{j / 10}{j % 10} ");
+            }
+            Console.WriteLine(head);
+
             for (int i = 0; i < Size; i++)
             {
                 var str = new StringBuilder();
+                str.Append($"{i / 10}{i % 10} ");
                 for (int j = 0; j < Size; j++)
                 {
                     str.Append(Cell(i, j).PrintColor());

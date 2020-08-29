@@ -5,6 +5,11 @@ VisualStudioVersion = 16.0.30406.217
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gomoku.core", "gomoku.core\gomoku.core.csproj", "{B22DE3ED-650C-404D-9C39-0FC4C5AB296A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gomoku.app", "gomoku.app\gomoku.app.csproj", "{3CBF5C51-9331-4176-8F77-CC1A1A109112}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B22DE3ED-650C-404D-9C39-0FC4C5AB296A} = {B22DE3ED-650C-404D-9C39-0FC4C5AB296A}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +20,10 @@ Global
 		{B22DE3ED-650C-404D-9C39-0FC4C5AB296A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B22DE3ED-650C-404D-9C39-0FC4C5AB296A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B22DE3ED-650C-404D-9C39-0FC4C5AB296A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CBF5C51-9331-4176-8F77-CC1A1A109112}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CBF5C51-9331-4176-8F77-CC1A1A109112}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CBF5C51-9331-4176-8F77-CC1A1A109112}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CBF5C51-9331-4176-8F77-CC1A1A109112}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
