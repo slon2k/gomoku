@@ -5,15 +5,13 @@ namespace gomoku.app
 {
     class Program
     {
-        
-
         static void Main(string[] args)
         {
-            int x, y, size = 15;
-            var board = new Board(size);
-            board.Print();
+            int x, y;
+            var game = new Game();
+            game.PrintBoard();
 
-            while (true)
+            while (!game.IsFinished)
             {
                 var input = Console.ReadLine().Split(" ");
                 if (input.Length < 2)
@@ -25,15 +23,18 @@ namespace gomoku.app
                     Console.WriteLine("Invalid input");
                     continue;
                 };
-                if (x > size - 1 || x < 0 || y < 0 || y > size - 1) 
+                try
                 {
-                    Console.WriteLine("Input out of range");
-                    continue;
+                    game.Move(x, y);
                 }
-
-                board.AddStone(x, y);
-                board.Print();
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }             
+                game.PrintBoard();
             }
+
+            game.AnnounceResult();
 
             Console.WriteLine(" Press [enter] to exit.");
             Console.ReadLine();

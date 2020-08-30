@@ -18,12 +18,18 @@ namespace gomoku.core
 
         public static string PrintColor(this Color color)
         {
+            return $" {color.ToChar()} ";
+        }
+
+        public static char ToChar(this Color color)
+        {
             switch (color)
             {
-                case Color.Black: return " X ";
-                case Color.White: return " 0 ";
-                default: return " - ";
+                case Color.Black: return 'X';
+                case Color.White: return '0';
+                default: return '-';
             }
         }
+
     }
 }
