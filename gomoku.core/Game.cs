@@ -6,16 +6,16 @@ namespace gomoku.core
 {
     public class Game
     {
-        public const int Size = 15;
+        public readonly int Size;
         private readonly Board board;
         public bool IsFinished { get; private set; }
         public Color Winner { get; private set; } = Color.Undefined;
         public Color Turn { get => board.Turn; }
-        public int MyProperty { get; set; }
         
-        public Game()
+        public Game(int size = 15)
         {
-            board = new Board(Size);
+            Size = size;
+            board = new Board(size);
         }
 
         public void Move(int x, int y)
@@ -80,7 +80,24 @@ namespace gomoku.core
 
         public void PrintBoard()
         {
-            board.Print();
+            var head = new StringBuilder();
+            head.Append("   ");
+            for (int j = 0; j < Size; j++)
+            {
+                head.Append($"{j / 10}{j % 10} ");
+            }
+            Console.WriteLine(head);
+
+            for (int i = 0; i < Size; i++)
+            {
+                var str = new StringBuilder();
+                str.Append($"{i / 10}{i % 10} ");
+                for (int j = 0; j < Size; j++)
+                {
+                    str.Append(board.Cell(i, j).PrintColor());
+                }
+                Console.WriteLine(str);
+            }
         }
 
         public void PrintLines()
