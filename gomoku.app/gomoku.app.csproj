@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\gomoku.ai\gomoku.ai.csproj" />
     <ProjectReference Include="..\gomoku.core\gomoku.core.csproj" />
   </ItemGroup>
 

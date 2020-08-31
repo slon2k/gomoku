@@ -18,7 +18,7 @@ namespace gomoku.core
             board = new Board(size);
         }
 
-        public void Move(int x, int y)
+        public void MakeMove(int x, int y)
         {
             if (IsFinished)
             {
@@ -59,6 +59,18 @@ namespace gomoku.core
             {
                 IsFinished = true;
             }
+        }
+    }
+    
+    public struct Move
+    {
+        public int x;
+        public int y;
+
+        public Move(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
         }
     }
 }

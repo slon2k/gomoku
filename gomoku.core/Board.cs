@@ -89,7 +89,7 @@ namespace gomoku.core
             }
         }
 
-        public IList<Cell> CellToMove
+        public IList<Cell> CellsToMove
         {
             get
             {
@@ -104,6 +104,10 @@ namespace gomoku.core
                     {
                         for (int j = -2; j <= 2; j++)
                         {
+                            if (x + i < 0 || y + j < 0 || x + i >= Size || y + j >= Size )
+                            {
+                                continue;
+                            }
                             if (Cell(x + i, y + j) != Color.Undefined)
                             {
                                 neighbors++;

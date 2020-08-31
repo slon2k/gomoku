@@ -1,5 +1,7 @@
-﻿using gomoku.core;
+﻿using gomoku.ai;
+using gomoku.core;
 using System;
+using System.Collections.Generic;
 
 namespace gomoku.app
 {
@@ -7,25 +9,42 @@ namespace gomoku.app
     {
         static void Main(string[] args)
         {
-            int x, y;
             var game = new Game();
+            var player = new Player();
+            Move move = new Move(-1, -1);
+            var players = new Dictionary<Color, string>();
+            players[Color.Black] = "human";
+            players[Color.White] = "computer";
+
             game.PrintBoard();
 
             while (!game.IsFinished)
             {
-                var input = Console.ReadLine().Split(" ");
-                if (input.Length < 2)
+                if (players[game.Turn] == "human")
                 {
-                    break;
+                    try
+                    {
+                        move = InputMove();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }                    
+                } else
+                {
+                    try
+                    {
+                        move = player.GetMove(game.board);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
                 }
-                if (!int.TryParse(input[0], out x) || !int.TryParse(input[1], out y)) 
-                {
-                    Console.WriteLine("Invalid input");
-                    continue;
-                };
+               
                 try
                 {
-                    game.Move(x, y);
+                    game.MakeMove(move.x, move.y);
                 }
                 catch (Exception e)
                 {
@@ -38,6 +57,25 @@ namespace gomoku.app
 
             Console.WriteLine(" Press [enter] to exit.");
             Console.ReadLine();
+        }
+
+        private static Move InputMove()
+        {
+            var input = Console.ReadLine().Split(" ");
+            var move = new Move();
+            
+            if (input.Length < 2)
+            {
+                throw new ArgumentNullException("Invalid input");
+            }
+            
+            if (!int.TryParse(input[0], out move.x) || !int.TryParse(input[1], out move.y))
+            {
+                throw new ArgumentNullException("Invalid input");
+                
+            };
+            
+            return move;
         }
     }
 }

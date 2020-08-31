@@ -14,13 +14,24 @@ namespace gomoku.ai
             {
                 throw new ArgumentOutOfRangeException("No empty cell");
             }
+            if (board.FreeCells.Count >= board.Cells.Count - 1)
+            {
+                if (board.Cell(board.Size / 2, board.Size / 2) == Color.Undefined)
+                {
+                    return new Move(board.Size / 2, board.Size / 2);
+                } else
+                {
+                    return new Move(board.Size / 2, board.Size / 2 + 1);
+                }
+            }
+
             var values = new Dictionary<Move, int>();
-            foreach (var cell in board.CellToMove)
+            foreach (var cell in board.CellsToMove)
             {
                 var newBoard = new Board(board);
                 newBoard.AddStone(cell.x, cell.y);
                 var value = Evaluation.Evaluate(newBoard);
-                values.Add(new Move() { x = cell.x, y = cell.y }, value);
+                values.Add(new Move(cell.x, cell.y), value);
             }
             if (board.Turn == Color.Black)
             {
@@ -28,11 +39,5 @@ namespace gomoku.ai
             }
             return values.OrderBy(x => x.Value).First().Key;
         }
-    }
-
-    public struct Move
-    {
-        public int x;
-        public int y;
     }
 }

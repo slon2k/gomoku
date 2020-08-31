@@ -23,8 +23,8 @@ namespace gomoku.ai
             }
             return value;
         }
-        
-        private static IDictionary<string, int> Patterns = new Dictionary<string, int> 
+
+        private static readonly IDictionary<string, int> Patterns = new Dictionary<string, int>()
         {
             //Five in line
             { "+00000+", -10000 },
@@ -64,16 +64,16 @@ namespace gomoku.ai
             { "00-00", -500},
             { "000-0", -500},
             { "X-XXX", 500},
-            { "XX-XX", -500},
-            { "XXX-X", -500},
+            { "XX-XX", 500},
+            { "XXX-X", 500},
             
             //Three
             { "--000--", -500},
             { "-0-00-", -500},
             { "-00-0-", -500},
             { "--XXX--", 500},
-            { "-X-XX-", -500},
-            { "-X-XX-", -500},
+            { "-X-XX-", 500},
+            { "-XX-X-", 500},
             { "X-000--", -400 },
             { "+-000--", -400 },
             { "--000-X", -400 },
@@ -98,10 +98,7 @@ namespace gomoku.ai
             { "---00X", -50 },
             { "X00---", -50 },
             { "---XX0", 50 },
-            { "0XX---", 50 },
+            { "0XX---", 50 }
         };
-
-        
-
     }
 }
