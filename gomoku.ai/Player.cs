@@ -30,7 +30,7 @@ namespace gomoku.ai
             {
                 var newBoard = new Board(board);
                 newBoard.AddStone(cell.x, cell.y);
-                var value = Evaluation.Evaluate(newBoard);
+                var value = Algorithm.Minimax(newBoard, 1);
                 values.Add(new Move(cell.x, cell.y), value);
             }
             if (board.Turn == Color.Black)
