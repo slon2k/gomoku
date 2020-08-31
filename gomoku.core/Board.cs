@@ -89,6 +89,37 @@ namespace gomoku.core
             }
         }
 
+        public IList<Cell> CellToMove
+        {
+            get
+            {
+                int x, y, neighbors;
+                var cells = new List<Cell>();
+                foreach (var cell in FreeCells)
+                {
+                    x = cell.x;
+                    y = cell.y;
+                    neighbors = 0;
+                    for (int i = -2; i <= 2; i++)
+                    {
+                        for (int j = -2; j <= 2; j++)
+                        {
+                            if (Cell(x + i, y + j) != Color.Undefined)
+                            {
+                                neighbors++;
+                            }
+                        }
+                    }
+                    if (neighbors > 0)
+                    {
+                        cells.Add(cell);
+                    }
+                }
+
+                return cells;
+            }
+        }
+
         private string Row(int index)
         {
             if (index < 0 || index >= Size)
