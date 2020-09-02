@@ -10,11 +10,49 @@ namespace gomoku.ai
     {
         
         private const int WinningValue = 15000;
-        private static char freeCell = Color.Undefined.ToChar();
-        
+        private static readonly char freeCell = Color.Undefined.ToChar();
+        private static readonly char white = Color.White.ToChar();
+        private static readonly char black = Color.Black.ToChar();
+
         public static int Evaluate(Board board)
         {
+            string allStrings = string.Join(string.Empty, board.AllStrings);
             int value = 0;
+
+
+            if (Five(black).IsMatch(allStrings))
+            {
+                return WinningValue;
+            }
+
+            if (Five(white).IsMatch(allStrings))
+            {
+                return -WinningValue;
+            }
+
+            if (board.Turn == Color.Black && (
+                FourOpen(black).IsMatch(allStrings) || 
+                FourClosedLeft(black).IsMatch(allStrings) || 
+                FourClosedRight(black).IsMatch(allStrings) ||
+                FourHoleLeft(black).IsMatch(allStrings) ||
+                FourHoleRight(black).IsMatch(allStrings) ||
+                FourHoleCenter(black).IsMatch(allStrings)))
+            {
+                return WinningValue;
+            }
+
+            if (board.Turn == Color.White && (
+                FourOpen(white).IsMatch(allStrings) || 
+                FourClosedLeft(white).IsMatch(allStrings) || 
+                FourClosedRight(white).IsMatch(allStrings) ||
+                FourHoleLeft(white).IsMatch(allStrings) ||
+                FourHoleRight(white).IsMatch(allStrings) ||
+                FourHoleCenter(white).IsMatch(allStrings)))
+            {
+                return -WinningValue;
+            }
+
+
             foreach (var str in board.AllStrings)
             {
                 foreach (var pattern in Patterns)
