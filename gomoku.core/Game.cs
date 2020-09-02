@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace gomoku.core
 {
@@ -18,6 +19,8 @@ namespace gomoku.core
             board = new Board(size);
         }
 
+        public void MakeMove(Move move) => MakeMove(move.x, move.y);
+
         public void MakeMove(int x, int y)
         {
             if (IsFinished)
@@ -29,7 +32,7 @@ namespace gomoku.core
             try
             {
                 board.AddStone(x, y);
-                checkWinner();
+                CheckWinner();
             }
             catch (Exception e)
             {
@@ -37,23 +40,25 @@ namespace gomoku.core
             }
         } 
         
-        private void checkWinner()
+        private void CheckWinner()
         {
-            foreach (var item in board.AllStrings)
+            string allStrings = string.Join(string.Empty, board.AllStrings);
+            var blackWin = new Regex(@"[^X]XXXXX[^X]");
+            var whiteWin = new Regex(@"[^0]00000[^0]");
+
+            if (blackWin.IsMatch(allStrings))
             {
-                if (item.Contains("00000"))
-                {
-                    IsFinished = true;
-                    Winner = Color.White;
-                    return;
-                }
-                if (item.Contains("XXXXX"))
-                {
-                    IsFinished = true;
-                    Winner = Color.Black;
-                    return;
-                }
-            };
+                IsFinished = true;
+                Winner = Color.Black;
+                return;
+            }
+
+            if (whiteWin.IsMatch(allStrings))
+            {
+                IsFinished = true;
+                Winner = Color.White;
+                return;
+            }
 
             if (board.FreeCells.Count == 0)
             {
