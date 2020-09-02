@@ -30,7 +30,7 @@ namespace gomoku.ai
             {
                 var newBoard = new Board(board);
                 newBoard.AddStone(cell.x, cell.y);
-                var value = Algorithm.Minimax(newBoard, 1);
+                var value = Algorithm.AlphaBetaPruning(newBoard, 3, -10000000, 10000000);
                 values.Add(new Move(cell.x, cell.y), value);
             }
             if (board.Turn == Color.Black)

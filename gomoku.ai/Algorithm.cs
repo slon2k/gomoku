@@ -6,8 +6,10 @@ using System.Text;
 
 namespace gomoku.ai
 {
-    public static class Algorithm
+    public class Algorithm
     {
+        private const int Infinity = 10000000;
+        
         public static int Minimax(Board board, int depth)
         {
             if (depth == 0)
@@ -33,6 +35,52 @@ namespace gomoku.ai
             {
                 return values.Min();
             }
+        }
+
+        public static int AlphaBetaPruning(Board board, int depth, int alpha, int beta)
+        {
+            if (depth == 0)
+            {
+                return Evaluation.Evaluate(board);
+            }
+
+            var moves = board.CellsToMove;
+            var value = Infinity;
+
+            if (board.Turn == Color.Black)
+            {
+                value *= -1;
+                foreach (var move in moves)
+                {
+                    var newBoard = new Board(board);
+                    newBoard.AddStone(move.x, move.y);
+                    var evaluation = AlphaBetaPruning(newBoard, depth - 1, alpha, beta);
+                    value = Math.Max(evaluation, value);
+                    alpha = Math.Max(alpha, value);
+                    if (alpha >= beta)
+                    {
+                        break;
+                    }
+                }
+
+            } else
+            {
+                foreach (var move in moves)
+                {
+                    var newBoard = new Board(board);
+                    newBoard.AddStone(move.x, move.y);
+                    var evaluation = AlphaBetaPruning(newBoard, depth - 1, alpha, beta);
+                    value = Math.Min(evaluation, value);
+                    beta = Math.Min(beta, value);
+                    if (alpha >= beta)
+                    {
+                        break;
+                    }
+                }
+
+            }
+            
+            return value;
         }
     }
 }
