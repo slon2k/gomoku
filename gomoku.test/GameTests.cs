@@ -20,7 +20,7 @@ namespace gomoku.test
                 game.MakeMove(1, i);
             }
             
-            Assert.IsTrue(!game.IsFinished);
+            Assert.IsFalse(game.IsFinished);
             Assert.AreEqual(Color.Undefined, game.Winner);
 
             game.MakeMove(0, 4);
@@ -42,7 +42,7 @@ namespace gomoku.test
             
             game.MakeMove(0, 4);
             
-            Assert.IsTrue(!game.IsFinished);
+            Assert.IsFalse(game.IsFinished);
             Assert.AreEqual(Color.Undefined, game.Winner);
             
             game.MakeMove(4, 1);
@@ -62,7 +62,7 @@ namespace gomoku.test
                 game.MakeMove(i + 1, i);
             }
 
-            Assert.IsTrue(!game.IsFinished);
+            Assert.IsFalse(game.IsFinished);
             Assert.AreEqual(Color.Undefined, game.Winner);
 
             game.MakeMove(4, 4);
@@ -86,7 +86,7 @@ namespace gomoku.test
             game.MakeMove(6, 5);
             game.MakeMove(4, 4);
 
-            Assert.IsTrue(!game.IsFinished);
+            Assert.IsFalse(game.IsFinished);
             Assert.AreEqual(Color.Undefined, game.Winner);
         }
 

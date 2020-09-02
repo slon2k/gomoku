@@ -39,16 +39,18 @@ namespace gomoku.app
                     catch (Exception e)
                     {
                         Console.WriteLine(e.Message);
+                        throw e;
                     }
                 }
                
                 try
                 {
-                    game.MakeMove(move.x, move.y);
+                    game.MakeMove(move);
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
+                    throw e;
                 }             
                 game.PrintBoard();
             }

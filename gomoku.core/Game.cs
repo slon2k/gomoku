@@ -39,12 +39,16 @@ namespace gomoku.core
                 Console.WriteLine(e.Message);
             }
         } 
+
+        private Regex Win(char c) => new Regex($@"[^{c}]{c}{c}{c}{c}{c}[^{c}]");
         
         private void CheckWinner()
         {
             string allStrings = string.Join(string.Empty, board.AllStrings);
-            var blackWin = new Regex(@"[^X]XXXXX[^X]");
-            var whiteWin = new Regex(@"[^0]00000[^0]");
+            var b = Color.Black.ToChar();
+            var w = Color.White.ToChar();
+            var blackWin = Win(b);
+            var whiteWin = Win(w);
 
             if (blackWin.IsMatch(allStrings))
             {

@@ -41,9 +41,9 @@ namespace gomoku.core
 
         public void AddStone(int x, int y)
         {
-            if (x < 0 || y < 0 || x >= Size || y >= Size  )
+            if (IsOutOfRange(x) || IsOutOfRange(y))
             {
-                throw new ArgumentOutOfRangeException("Position does not exist");
+                throw new ArgumentOutOfRangeException("Position does not exist 1");
             }
 
             if (Position[x, y] != Color.Undefined)
@@ -57,9 +57,9 @@ namespace gomoku.core
 
         public Color Cell(int x, int y)
         {
-            if (x < 0 || y < 0 || x >= Size || y >= Size)
+            if (IsOutOfRange(x) || IsOutOfRange(y))
             {
-                throw new ArgumentOutOfRangeException("Position does not exist");
+                throw new ArgumentOutOfRangeException("Position does not exist 2");
             }
             
             return Position[x, y];
@@ -104,7 +104,7 @@ namespace gomoku.core
                     {
                         for (int j = -2; j <= 2; j++)
                         {
-                            if (x + i < 0 || y + j < 0 || x + i >= Size || y + j >= Size )
+                            if (IsOutOfRange(x + i) || IsOutOfRange(y + j))
                             {
                                 continue;
                             }
@@ -169,9 +169,9 @@ namespace gomoku.core
 
         private string DiagonalDownUp(int x, int y)
         {
-            if (x < 0 || y < 0 || x >= Size || y >= Size)
+            if (IsOutOfRange(x) || IsOutOfRange(y))
             {
-                throw new ArgumentOutOfRangeException("Position does not exist");
+                throw new ArgumentOutOfRangeException("Position does not exist 3");
             }
             if (y !=0  && x != Size - 1)
             {
@@ -182,7 +182,7 @@ namespace gomoku.core
             int i = x;
             int j = y;
             
-            while (i >= 0 && j >= 0 && i < Size && j < Size )
+            while (!IsOutOfRange(i) && !IsOutOfRange(j))
             {
                 str.Append(Cell(i--, j++).ToChar());
             }
@@ -215,15 +215,15 @@ namespace gomoku.core
                     diagonals.Add(DiagonalUpDown(0, i));
                 }
 
-                return diagonals;
+                return diagonals.Where(x => x.Length > 6 ).ToList();
             }
         }
 
         private string DiagonalUpDown(int x, int y)
         {
-            if (x < 0 || y < 0 || x >= Size || y >= Size)
+            if (IsOutOfRange(x) || IsOutOfRange(y))
             {
-                throw new ArgumentOutOfRangeException("Position does not exist");
+                throw new ArgumentOutOfRangeException("Position does not exist 4");
             }
             if (x != 0 && y != 0)
             {
@@ -234,7 +234,7 @@ namespace gomoku.core
             int i = x;
             int j = y;
 
-            while (i >= 0 && j >= 0 && i < Size && j < Size)
+            while (!IsOutOfRange(i) && !IsOutOfRange(j))
             {
                 str.Append(Cell(i++, j++).ToChar());
             }
@@ -267,6 +267,9 @@ namespace gomoku.core
                 return result;
             }
         }
+
+        private bool IsOutOfRange(int i) => i < 0 || i >= Size;
+
     }
 
 
