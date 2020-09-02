@@ -37,7 +37,7 @@ namespace gomoku.ai
             }
         }
 
-        public static int AlphaBetaPruning(Board board, int depth, int alpha, int beta)
+        public static int AlphaBetaPruning(Board board, int depth, int alpha = -Infinity, int beta = Infinity)
         {
             if (depth == 0)
             {

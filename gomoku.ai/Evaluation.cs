@@ -2,11 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace gomoku.ai
 {
     public static class Evaluation
     {
+        
+        private const int WinningValue = 15000;
+        private static char freeCell = Color.Undefined.ToChar();
         
         public static int Evaluate(Board board)
         {
@@ -23,6 +27,60 @@ namespace gomoku.ai
             }
             return value;
         }
+
+        // XXXXX
+        private static Regex Five(char c) => new Regex($@"[^{c}]{c}{c}{c}{c}{c}[^{c}]");
+
+        // -XXXX-
+        private static Regex FourOpen(char c) => new Regex($@"{freeCell}{c}{c}{c}{c}{freeCell}");
+        
+        // 0XXXX-
+        private static Regex FourClosedLeft(char c) => new Regex($@"[^{c}{freeCell}]{c}{c}{c}{c}{freeCell}");
+
+        // -XXXX0
+        private static Regex FourClosedRight(char c) => new Regex($@"{freeCell}{c}{c}{c}{c}[^{c}{freeCell}]");
+
+        // 0XXX-X
+        private static Regex FourHoleRight(char c) => new Regex($@"[^{c}]{c}{c}{c}{freeCell}{c}[^{c}]");
+        
+        // X-XXX
+        private static Regex FourHoleLeft(char c) => new Regex($@"[^{c}]{c}{freeCell}{c}{c}{c}[^{c}]");
+
+        // XX-XX
+        private static Regex FourHoleCenter(char c) => new Regex($@"[^{c}]{c}{c}{freeCell}{c}{c}[^{c}]");
+
+        // --XXX--
+        private static Regex Three(char c) => new Regex($@"{freeCell}{freeCell}{c}{c}{c}{freeCell}{freeCell}");
+
+        // -X-XX-
+        private static Regex ThreeHoleLeft(char c) => new Regex($@"{freeCell}{c}{freeCell}{c}{c}{freeCell}");
+
+        // -XX-X-
+        private static Regex ThreeHoleRight(char c) => new Regex($@"{freeCell}{c}{c}{freeCell}{c}{freeCell}");
+
+        // 0-XXX--
+        private static Regex ThreeLeft(char c) => new Regex($@"[^{c}{freeCell}]{freeCell}{c}{c}{c}{freeCell}{freeCell}");
+
+        // --XXX-0
+        private static Regex ThreeRight(char c) => new Regex($@"{freeCell}{freeCell}{c}{c}{c}{freeCell}[^{c}{freeCell}]");
+
+        // 0XXX--
+        private static Regex ThreeClosedLeft(char c) => new Regex($@"[^{c}{freeCell}]{c}{c}{c}{freeCell}{freeCell}");
+
+        // --XXX0
+        private static Regex ThreeClosedRight(char c) => new Regex($@"{freeCell}{freeCell}{c}{c}{c}[^{c}{freeCell}]");
+
+        // --XX--
+        private static Regex Two(char c) => new Regex($@"{freeCell}{freeCell}{c}{c}{freeCell}{freeCell}");
+        
+        // -X-X-
+        private static Regex TwoHole(char c) => new Regex($@"{freeCell}{c}{freeCell}{c}{freeCell}");
+
+        // 0XX---
+        private static Regex TwoHoleLeft(char c) => new Regex($@"[^{c}{freeCell}]{c}{c}{freeCell}{freeCell}{freeCell}");
+        
+        // ---XX0
+        private static Regex TwoHoleRight(char c) => new Regex($@"{freeCell}{freeCell}{freeCell}{c}{c}[^{c}{freeCell}]");
 
         private static readonly IDictionary<string, int> Patterns = new Dictionary<string, int>()
         {
