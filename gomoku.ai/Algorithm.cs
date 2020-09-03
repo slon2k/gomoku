@@ -10,6 +10,7 @@ namespace gomoku.ai
     {
         private const int Infinity = 10000000;
         
+        //Minimax was used in early versions
         public static int Minimax(Board board, int depth)
         {
             if (depth == 0)
@@ -37,6 +38,7 @@ namespace gomoku.ai
             }
         }
 
+        // Improved minimax algorithm
         public static int AlphaBetaPruning(Board board, int depth, int alpha = -Infinity, int beta = Infinity)
         {
             if (depth == 0)
