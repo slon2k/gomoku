@@ -7,6 +7,9 @@ namespace gomoku.app
 {
     class Program
     {
+        const string ComputerPlayer = "Computer";
+        const string HumanPlayer = "Human";
+        
         static void Main(string[] args)
         {
             var game = new Game();
@@ -14,16 +17,16 @@ namespace gomoku.app
             Move move = new Move(-1, -1);
             var players = new Dictionary<Color, string>
             {
-                [Color.Black] = "computer",
-                //[Color.Black] = "human";
-                [Color.White] = "computer"
+                //[Color.Black] = ComputerPlayer,
+                [Color.Black] = HumanPlayer,
+                [Color.White] = ComputerPlayer
             };
 
             game.PrintBoard();
 
             while (!game.IsFinished)
             {
-                if (players[game.Turn] == "human")
+                if (players[game.Turn] == HumanPlayer)
                 {
                     try
                     {
