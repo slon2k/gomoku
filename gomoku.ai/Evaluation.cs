@@ -13,12 +13,50 @@ namespace gomoku.ai
         private static readonly char freeCell = Color.Undefined.ToChar();
         private static readonly char white = Color.White.ToChar();
         private static readonly char black = Color.Black.ToChar();
+        private static readonly IDictionary<Regex, int> Combitations = new Dictionary<Regex, int>()
+        {
+            { Five(black), 15000 },
+            { Five(white), -15000 },
+            { FourOpen(black), 5000},
+            { FourOpen(white), -5000},
+            { FourClosedRight(black), 1000},
+            { FourClosedRight(white), -1000},
+            { FourClosedLeft(black), 1000},
+            { FourClosedLeft(white), -1000},
+            { FourHoleLeft(black), 1000},
+            { FourHoleCenter(black), 1000},
+            { FourHoleRight(black), 1000},
+            { FourHoleLeft(white), -1000},
+            { FourHoleCenter(white), -1000},
+            { FourHoleRight(white), -1000},
+            { Three(black), 1000 },
+            { ThreeHoleLeft(black), 1000 },
+            { ThreeHoleRight(black), 1000 },
+            { ThreeLeft(black), 700 },
+            { ThreeRight(black), 700 },
+            { ThreeClosedLeft(black), 500 },
+            { ThreeClosedRight(black), 500 },
+            { Two(black), 100 },
+            { TwoHole(black), 100 },
+            { TwoClosedLeft(black), 50 },
+            { TwoClosedRight(black), 50 },
+            { Three(white), -1000 },
+            { ThreeHoleLeft(white), -1000 },
+            { ThreeHoleRight(white), -1000 },
+            { ThreeLeft(white), -700 },
+            { ThreeRight(white), -700 },
+            { ThreeClosedLeft(white), -500 },
+            { ThreeClosedRight(white), -500 },
+            { Two(white), -100 },
+            { TwoHole(white), -100 },
+            { TwoClosedLeft(white), -50 },
+            { TwoClosedRight(white), -50 },
+        };
 
         public static int Evaluate(Board board)
         {
             string allStrings = string.Join(string.Empty, board.AllStrings);
             int value = 0;
-
 
             if (Five(black).IsMatch(allStrings))
             {
@@ -52,17 +90,12 @@ namespace gomoku.ai
                 return -WinningValue;
             }
 
-
-            foreach (var str in board.AllStrings)
+            foreach (var combination in Combitations)
             {
-                foreach (var pattern in Patterns)
-                {
-                    if (str.Contains(pattern.Key))
-                    {
-                        value += pattern.Value;
-                    }
-                }
+                var count = combination.Key.Matches(allStrings).Count;
+                value += count * combination.Value;
             }
+
             return value;
         }
 
@@ -115,86 +148,9 @@ namespace gomoku.ai
         private static Regex TwoHole(char c) => new Regex($@"{freeCell}{c}{freeCell}{c}{freeCell}");
 
         // 0XX---
-        private static Regex TwoHoleLeft(char c) => new Regex($@"[^{c}{freeCell}]{c}{c}{freeCell}{freeCell}{freeCell}");
+        private static Regex TwoClosedLeft(char c) => new Regex($@"[^{c}{freeCell}]{c}{c}{freeCell}{freeCell}{freeCell}");
         
         // ---XX0
-        private static Regex TwoHoleRight(char c) => new Regex($@"{freeCell}{freeCell}{freeCell}{c}{c}[^{c}{freeCell}]");
-
-        private static readonly IDictionary<string, int> Patterns = new Dictionary<string, int>()
-        {
-            //Five in line
-            { "+00000+", -10000 },
-            { "+00000X", -10000 },
-            { "+00000-", -10000 },
-            { "X00000+", -10000 },
-            { "X00000X", -10000 },
-            { "X00000-", -10000 },
-            { "-00000+", -10000 },
-            { "-00000X", -10000 },
-            { "-00000-", -10000 },
-
-            { "+XXXXX+", 10000 },
-            { "+XXXXX0", 10000 },
-            { "+XXXXX-", 10000 },
-            { "0XXXXX+", 10000 },
-            { "0XXXXX0", 10000 },
-            { "0XXXXX-", 10000 },
-            { "-XXXXX+", 10000 },
-            { "-XXXXX0", 10000 },
-            { "-XXXXX-", 10000 },
-
-            //Four in line
-            { "-0000-", -1000 },
-            { "-XXXX-", 1000 },
-            { "X0000-", -500 },
-            { "0XXXX-", 500 },
-            { "+0000-", -500 },
-            { "+XXXX-", 500 },
-            { "-0000+", -500 },
-            { "-XXXX+", 500 },
-            { "-0000X", -500 },
-            { "-XXXX0", 500 },
-            
-            //Four with a hole
-            { "0-000", -500},
-            { "00-00", -500},
-            { "000-0", -500},
-            { "X-XXX", 500},
-            { "XX-XX", 500},
-            { "XXX-X", 500},
-            
-            //Three
-            { "--000--", -500},
-            { "-0-00-", -500},
-            { "-00-0-", -500},
-            { "--XXX--", 500},
-            { "-X-XX-", 500},
-            { "-XX-X-", 500},
-            { "X-000--", -400 },
-            { "+-000--", -400 },
-            { "--000-X", -400 },
-            { "--000-+", -400 },
-            { "0-XXX--", 400 },
-            { "+-XXX--", 400 },
-            { "--XXX-0", 400 },
-            { "--XXX-+", 400 },
-            { "X000--", -250},
-            { "+000--", -250},
-            { "--000X", -250},
-            { "--000+", -250},
-            { "0XXX--", 250},
-            { "+XXX--", 250},
-            { "--XXX0", 250},
-            { "--XXX+", 250},
-            //Two
-            { "--00--", -200 },
-            { "--XX--", 200 },
-            { "-0-0-", -100 },
-            { "-X-X-", 100 },
-            { "---00X", -50 },
-            { "X00---", -50 },
-            { "---XX0", 50 },
-            { "0XX---", 50 }
-        };
+        private static Regex TwoClosedRight(char c) => new Regex($@"{freeCell}{freeCell}{freeCell}{c}{c}[^{c}{freeCell}]");
     }
 }

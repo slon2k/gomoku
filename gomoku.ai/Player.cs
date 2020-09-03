@@ -8,6 +8,8 @@ namespace gomoku.ai
 {
     public class Player
     {
+        private const int Depth = 1;
+        
         public Move GetMove(Board board)
         {
             if (board.FreeCells.Count == 0)
@@ -30,7 +32,7 @@ namespace gomoku.ai
             {
                 var newBoard = new Board(board);
                 newBoard.AddStone(cell.x, cell.y);
-                var value = Algorithm.AlphaBetaPruning(newBoard, 2);
+                var value = Algorithm.AlphaBetaPruning(newBoard, Depth);
                 values.Add(new Move(cell.x, cell.y), value);
             }
             if (board.Turn == Color.Black)
