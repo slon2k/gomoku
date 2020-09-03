@@ -40,24 +40,22 @@ namespace gomoku.core
             }
         } 
 
-        private Regex Win(char c) => new Regex($@"[^{c}]{c}{c}{c}{c}{c}[^{c}]");
+        private Regex WinningCombination(char c) => new Regex($@"[^{c}]{c}{c}{c}{c}{c}[^{c}]");
         
         private void CheckWinner()
         {
             string allStrings = string.Join(string.Empty, board.AllStrings);
-            var b = Color.Black.ToChar();
-            var w = Color.White.ToChar();
-            var blackWin = Win(b);
-            var whiteWin = Win(w);
+            var black = Color.Black.ToChar();
+            var white = Color.White.ToChar();
 
-            if (blackWin.IsMatch(allStrings))
+            if (WinningCombination(black).IsMatch(allStrings))
             {
                 IsFinished = true;
                 Winner = Color.Black;
                 return;
             }
 
-            if (whiteWin.IsMatch(allStrings))
+            if (WinningCombination(white).IsMatch(allStrings))
             {
                 IsFinished = true;
                 Winner = Color.White;

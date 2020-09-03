@@ -16,15 +16,9 @@ namespace gomoku.ai
             {
                 throw new ArgumentOutOfRangeException("No empty cell");
             }
-            if (board.FreeCells.Count >= board.Cells.Count - 1)
+            if (board.IsEmpty())
             {
-                if (board.Cell(board.Size / 2, board.Size / 2) == Color.Undefined)
-                {
-                    return new Move(board.Size / 2, board.Size / 2);
-                } else
-                {
-                    return new Move(board.Size / 2, board.Size / 2 + 1);
-                }
+                return new Move(board.Size / 2, board.Size / 2);
             }
 
             var values = new Dictionary<Move, int>();

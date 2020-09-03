@@ -9,7 +9,7 @@ namespace gomoku.ai
     public static class Evaluation
     {
         
-        private const int WinningValue = 15000;
+        public const int WinningValue = 15000;
         private static readonly char freeCell = Color.Undefined.ToChar();
         private static readonly char white = Color.White.ToChar();
         private static readonly char black = Color.Black.ToChar();
