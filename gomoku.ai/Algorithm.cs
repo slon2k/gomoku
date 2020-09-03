@@ -39,8 +39,11 @@ namespace gomoku.ai
         }
 
         // Improved minimax algorithm
-        public static int AlphaBetaPruning(Board board, int depth, int alpha = -Infinity, int beta = Infinity)
+        public static int AlphaBetaPruning(Board board, int depth, int a = -Infinity, int b = Infinity)
         {
+            int alpha = a;
+            int beta = b;
+            
             if (depth == 0)
             {
                 return Evaluation.Evaluate(board);

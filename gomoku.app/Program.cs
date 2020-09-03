@@ -12,9 +12,12 @@ namespace gomoku.app
             var game = new Game();
             var player = new Player();
             Move move = new Move(-1, -1);
-            var players = new Dictionary<Color, string>();
-            players[Color.Black] = "human";
-            players[Color.White] = "computer";
+            var players = new Dictionary<Color, string>
+            {
+                [Color.Black] = "computer",
+                //[Color.Black] = "human";
+                [Color.White] = "computer"
+            };
 
             game.PrintBoard();
 
@@ -39,7 +42,6 @@ namespace gomoku.app
                     catch (Exception e)
                     {
                         Console.WriteLine(e.Message);
-                        throw e;
                     }
                 }
                
@@ -50,7 +52,6 @@ namespace gomoku.app
                 catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
-                    throw e;
                 }             
                 game.PrintBoard();
             }

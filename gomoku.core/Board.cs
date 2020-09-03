@@ -81,13 +81,10 @@ namespace gomoku.core
                 return cells;
             }           
         }
-
+        
         public IList<Cell> FreeCells
         {
-            get
-            {
-                return Cells.Where(c => c.color == Color.Undefined).ToList();
-            }
+            get => Cells.Where(c => c.color == Color.Undefined).ToList();
         }
 
         public IList<Cell> CellsToMove

@@ -9,6 +9,8 @@ namespace gomoku.ai
     public class Player
     {
         private const int Depth = 1;
+
+        private static readonly Random random = new Random();
         
         public Move GetMove(Board board)
         {
@@ -22,12 +24,19 @@ namespace gomoku.ai
                 return new Move(board.Size / 2, board.Size / 2);
             }
 
+            if (board.Cells.Count - board.FreeCells.Count == 1)
+            {
+                var cells = board.CellsToMove;
+                var cell = cells[random.Next(cells.Count)];
+                return new Move(cell.x, cell.y);
+            }
+
             //Looking for winning move
             foreach (var cell in board.CellsToMove)
             {
                 var newBoard = new Board(board);
                 newBoard.AddStone(cell.x, cell.y);
-                if (board.HasWinningCombitation())
+                if (newBoard.HasWinningCombitation())
                 {
                     return new Move(cell.x, cell.y);
                 }
