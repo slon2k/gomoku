@@ -1,5 +1,4 @@
-﻿
-namespace gomoku.core
+﻿namespace gomoku.core
 {
     public static class StatusExtensions
     {

@@ -131,7 +131,7 @@ namespace gomoku.core
 
         private string Row(int index)
         {
-            if (index < 0 || index >= Size)
+            if (IsOutOfRange(index))
             {
                 throw new ArgumentOutOfRangeException("Index out of range");
             }
@@ -163,7 +163,7 @@ namespace gomoku.core
 
         private string Column(int index)
         {
-            if (index < 0 || index >= Size)
+            if (IsOutOfRange(index))
             {
                 throw new ArgumentOutOfRangeException("Index out of range");
             }
