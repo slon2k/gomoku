@@ -10,8 +10,8 @@ namespace gomoku.ai
         public static bool HasWinningCombitation(this Board board)
         {
             string allStrings = string.Join(string.Empty, board.AllStrings);
-            var black = Color.Black.ToChar();
-            var white = Color.White.ToChar();
+            var black = Status.Black.ToChar();
+            var white = Status.White.ToChar();
 
             if (WiningCombination(black).IsMatch(allStrings) || WiningCombination(white).IsMatch(allStrings))
             {

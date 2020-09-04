@@ -9,18 +9,19 @@ namespace gomoku.core
     public class Board
     {
         public readonly int Size;
-        private readonly Color[,] Position;
-        public Color Turn { get; private set; } = Color.Black;
+        private readonly Status[,] Position;
+        public Status Turn { get; private set; } = Status.Black;
 
         public Board(int size)
         {
             Size = size;
-            Position = new Color[Size, Size];
+            Position = new Status[Size, Size];
+            
             for (int i = 0; i < Size; i++)
             {
                 for (int j = 0; j < Size; j++)
                 {
-                    Position[i, j] = Color.Undefined;
+                    Position[i, j] = Status.Free;
                 }
             }
         }
@@ -28,8 +29,9 @@ namespace gomoku.core
         public Board(Board board)
         {
             Size = board.Size;
-            Position = new Color[Size, Size];
+            Position = new Status[Size, Size];
             Turn = board.Turn;
+            
             for (int i = 0; i < Size; i++)
             {
                 for (int j = 0; j < Size; j++)
@@ -39,6 +41,8 @@ namespace gomoku.core
             }
         }
 
+        public void AddStone(Cell cell) => AddStone(cell.x, cell.y);
+
         public void AddStone(int x, int y)
         {
             if (IsOutOfRange(x) || IsOutOfRange(y))
@@ -46,7 +50,7 @@ namespace gomoku.core
                 throw new ArgumentOutOfRangeException("Position does not exist 1");
             }
 
-            if (Position[x, y] != Color.Undefined)
+            if (Position[x, y] != Status.Free)
             {
                 throw new Exception("The cell is not empty");
             }
@@ -55,7 +59,7 @@ namespace gomoku.core
             Turn = Turn.Inverse();
         }
 
-        public Color Cell(int x, int y)
+        public Status Cell(int x, int y)
         {
             if (IsOutOfRange(x) || IsOutOfRange(y))
             {
@@ -69,7 +73,8 @@ namespace gomoku.core
         {
             get
             {
-                var cells = new List<Cell>();
+                var cells = new List<Cell>();               
+                
                 for (int i = 0; i < Size; i++)
                 {
                     for (int j = 0; j < Size; j++)
@@ -83,7 +88,7 @@ namespace gomoku.core
         
         public IList<Cell> FreeCells
         {
-            get => Cells.Where(c => c.color == Color.Undefined).ToList();
+            get => Cells.Where(c => c.color == Status.Free).ToList();
         }
 
         public IList<Cell> CellsToMove
@@ -92,11 +97,13 @@ namespace gomoku.core
             {
                 int x, y, neighbors;
                 var cells = new List<Cell>();
+                
                 foreach (var cell in FreeCells)
                 {
                     x = cell.x;
                     y = cell.y;
                     neighbors = 0;
+                    
                     for (int i = -2; i <= 2; i++)
                     {
                         for (int j = -2; j <= 2; j++)
@@ -105,12 +112,13 @@ namespace gomoku.core
                             {
                                 continue;
                             }
-                            if (Cell(x + i, y + j) != Color.Undefined)
+                            if (Cell(x + i, y + j) != Status.Free)
                             {
                                 neighbors++;
                             }
                         }
                     }
+                    
                     if (neighbors > 0)
                     {
                         cells.Add(cell);
@@ -129,11 +137,13 @@ namespace gomoku.core
             }
             
             var str = new StringBuilder();
+            
             for (int i = 0; i < Size; i++)
             {
                 str.Append(Cell(index, i).ToChar());
             }
-            return $"+{str}+";
+            
+            return StringWithBorder(str.ToString());
         }
 
         public IList<string> Rows
@@ -141,10 +151,12 @@ namespace gomoku.core
             get
             {
                 var rows = new List<string>();
+                
                 for (int i = 0; i < Size; i++)
                 {
                     rows.Add(Row(i));
                 }
+                
                 return rows;
             }
         }
@@ -157,11 +169,13 @@ namespace gomoku.core
             }
 
             var str = new StringBuilder();
+            
             for (int i = 0; i < Size; i++)
             {
                 str.Append(Cell(i, index).ToChar());
             }
-            return $"+{str}+";
+            
+            return StringWithBorder(str.ToString());
         }
 
         private string DiagonalDownUp(int x, int y)
@@ -183,8 +197,8 @@ namespace gomoku.core
             {
                 str.Append(Cell(i--, j++).ToChar());
             }
-            
-            return $"+{str}+";
+
+            return StringWithBorder(str.ToString());
         }
 
         public IList<string> Diagonals
@@ -192,6 +206,7 @@ namespace gomoku.core
             get
             {
                 var diagonals = new List<string>();
+                
                 for (int i = 0; i < Size; i++)
                 {
                     diagonals.Add(DiagonalDownUp(i, 0));
@@ -222,6 +237,7 @@ namespace gomoku.core
             {
                 throw new ArgumentOutOfRangeException("Position does not exist 4");
             }
+            
             if (x != 0 && y != 0)
             {
                 throw new ArgumentOutOfRangeException("The cell is not at the edge");
@@ -236,7 +252,7 @@ namespace gomoku.core
                 str.Append(Cell(i++, j++).ToChar());
             }
 
-            return $"+{str}+";
+            return StringWithBorder(str.ToString());
         }
 
         public IList<string> Columns
@@ -244,6 +260,7 @@ namespace gomoku.core
             get
             {
                 var columns = new List<string>();
+                
                 for (int i = 0; i < Size; i++)
                 {
                     columns.Add(Column(i));
@@ -265,6 +282,8 @@ namespace gomoku.core
             }
         }
 
+        private string StringWithBorder(string str) => $"{Status.Border.ToChar()}{str}{Status.Border.ToChar()}";
+
         private bool IsOutOfRange(int i) => i < 0 || i >= Size;
 
     }
@@ -275,9 +294,9 @@ namespace gomoku.core
     {
         public int x;
         public int y;
-        public Color color;
+        public Status color;
 
-        public Cell(int x, int y, Color color)
+        public Cell(int x, int y, Status color)
         {
             this.x = x;
             this.y = y;
@@ -285,10 +304,11 @@ namespace gomoku.core
         }
     }
 
-    public enum Color : byte
+    public enum Status : byte
     {
-        Undefined,
+        Free,
         Black,
-        White
+        White,
+        Border
     }
 }

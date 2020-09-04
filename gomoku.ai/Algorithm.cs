@@ -23,12 +23,12 @@ namespace gomoku.ai
             foreach (var move in moves)
             {
                 var newBoard = new Board(board);
-                newBoard.AddStone(move.x, move.y);
+                newBoard.AddStone(move);
                 var value = Minimax(newBoard, depth - 1);
                 values.Add(value);
             }
             
-            if (board.Turn == Color.Black)
+            if (board.Turn == Status.Black)
             {
                 return values.Max();
             } else
@@ -42,6 +42,7 @@ namespace gomoku.ai
         {
             int alpha = a;
             int beta = b;
+            int value;
             
             if (depth == 0)
             {
@@ -49,15 +50,14 @@ namespace gomoku.ai
             }
 
             var moves = board.CellsToMove;
-            var value = Infinity;
 
-            if (board.Turn == Color.Black)
+            if (board.Turn == Status.Black)
             {
-                value *= -1;
+                value = -Infinity;
                 foreach (var move in moves)
                 {
                     var newBoard = new Board(board);
-                    newBoard.AddStone(move.x, move.y);
+                    newBoard.AddStone(move);
                     var evaluation = AlphaBetaPruning(newBoard, depth - 1, alpha, beta);
                     value = Math.Max(evaluation, value);
                     alpha = Math.Max(alpha, value);
@@ -69,10 +69,11 @@ namespace gomoku.ai
 
             } else
             {
+                value = Infinity;
                 foreach (var move in moves)
                 {
                     var newBoard = new Board(board);
-                    newBoard.AddStone(move.x, move.y);
+                    newBoard.AddStone(move);
                     var evaluation = AlphaBetaPruning(newBoard, depth - 1, alpha, beta);
                     value = Math.Min(evaluation, value);
                     beta = Math.Min(beta, value);

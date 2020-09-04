@@ -15,11 +15,11 @@ namespace gomoku.app
             var game = new Game();
             var player = new Player();
             Move move = new Move(-1, -1);
-            var players = new Dictionary<Color, string>
+            var players = new Dictionary<Status, string>
             {
-                //[Color.Black] = ComputerPlayer,
-                [Color.Black] = HumanPlayer,
-                [Color.White] = ComputerPlayer
+                [Status.Black] = ComputerPlayer,
+                //[Color.Black] = HumanPlayer,
+                [Status.White] = ComputerPlayer
             };
 
             game.PrintBoard();

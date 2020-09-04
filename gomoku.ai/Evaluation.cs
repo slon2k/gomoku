@@ -9,9 +9,9 @@ namespace gomoku.ai
     {
         
         public const int WinningValue = 15000;
-        private static readonly char freeCell = Color.Undefined.ToChar();
-        private static readonly char white = Color.White.ToChar();
-        private static readonly char black = Color.Black.ToChar();
+        private static readonly char freeCell = Status.Free.ToChar();
+        private static readonly char white = Status.White.ToChar();
+        private static readonly char black = Status.Black.ToChar();
         private static readonly IDictionary<Regex, int> Combitations = new Dictionary<Regex, int>()
         {
             { Five(black), 15000 },
@@ -67,7 +67,7 @@ namespace gomoku.ai
                 return -WinningValue;
             }
 
-            if (board.Turn == Color.Black && (
+            if (board.Turn == Status.Black && (
                 FourOpen(black).IsMatch(allStrings) || 
                 FourClosedLeft(black).IsMatch(allStrings) || 
                 FourClosedRight(black).IsMatch(allStrings) ||
@@ -78,7 +78,7 @@ namespace gomoku.ai
                 return WinningValue;
             }
 
-            if (board.Turn == Color.White && (
+            if (board.Turn == Status.White && (
                 FourOpen(white).IsMatch(allStrings) || 
                 FourClosedLeft(white).IsMatch(allStrings) || 
                 FourClosedRight(white).IsMatch(allStrings) ||

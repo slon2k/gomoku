@@ -35,7 +35,7 @@ namespace gomoku.ai
             foreach (var cell in board.CellsToMove)
             {
                 var newBoard = new Board(board);
-                newBoard.AddStone(cell.x, cell.y);
+                newBoard.AddStone(cell);
                 if (newBoard.HasWinningCombitation())
                 {
                     return new Move(cell.x, cell.y);
@@ -47,12 +47,12 @@ namespace gomoku.ai
             foreach (var cell in board.CellsToMove)
             {
                 var newBoard = new Board(board);
-                newBoard.AddStone(cell.x, cell.y);
+                newBoard.AddStone(cell);
                 var value = Algorithm.AlphaBetaPruning(newBoard, Depth);
                 values.Add(new Move(cell.x, cell.y), value);
             }
             
-            if (board.Turn == Color.Black)
+            if (board.Turn == Status.Black)
             {
                 return values.OrderByDescending(x => x.Value).First().Key;
             }

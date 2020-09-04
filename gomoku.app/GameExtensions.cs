@@ -14,7 +14,7 @@ namespace gomoku.app
                 return;
             }
 
-            if (game.Winner == Color.Undefined)
+            if (game.Winner == Status.Free)
             {
                 Console.WriteLine("The game ended in a draw");
                 return;

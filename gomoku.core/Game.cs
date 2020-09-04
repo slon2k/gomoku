@@ -8,8 +8,8 @@ namespace gomoku.core
         public readonly int Size;
         public readonly Board board;
         public bool IsFinished { get; private set; }
-        public Color Winner { get; private set; } = Color.Undefined;
-        public Color Turn { get => board.Turn; }
+        public Status Winner { get; private set; } = Status.Free;
+        public Status Turn { get => board.Turn; }
         
         public Game(int size = 15)
         {
@@ -43,20 +43,20 @@ namespace gomoku.core
         private void CheckWinner()
         {
             string allStrings = string.Join(string.Empty, board.AllStrings);
-            var black = Color.Black.ToChar();
-            var white = Color.White.ToChar();
+            var black = Status.Black.ToChar();
+            var white = Status.White.ToChar();
 
             if (WinningCombination(black).IsMatch(allStrings))
             {
                 IsFinished = true;
-                Winner = Color.Black;
+                Winner = Status.Black;
                 return;
             }
 
             if (WinningCombination(white).IsMatch(allStrings))
             {
                 IsFinished = true;
-                Winner = Color.White;
+                Winner = Status.White;
                 return;
             }
 

@@ -18,12 +18,12 @@ namespace gomoku.test
             }
             
             Assert.IsFalse(game.IsFinished);
-            Assert.AreEqual(Color.Undefined, game.Winner);
+            Assert.AreEqual(Status.Free, game.Winner);
 
             game.MakeMove(0, 4);
 
             Assert.IsTrue(game.IsFinished);
-            Assert.AreEqual(Color.Black, game.Winner);
+            Assert.AreEqual(Status.Black, game.Winner);
         }
 
         [TestMethod]
@@ -40,12 +40,12 @@ namespace gomoku.test
             game.MakeMove(0, 4);
             
             Assert.IsFalse(game.IsFinished);
-            Assert.AreEqual(Color.Undefined, game.Winner);
+            Assert.AreEqual(Status.Free, game.Winner);
             
             game.MakeMove(4, 1);
 
             Assert.IsTrue(game.IsFinished);
-            Assert.AreEqual(Color.White, game.Winner);
+            Assert.AreEqual(Status.White, game.Winner);
         }
 
         [TestMethod]
@@ -60,12 +60,12 @@ namespace gomoku.test
             }
 
             Assert.IsFalse(game.IsFinished);
-            Assert.AreEqual(Color.Undefined, game.Winner);
+            Assert.AreEqual(Status.Free, game.Winner);
 
             game.MakeMove(4, 4);
 
             Assert.IsTrue(game.IsFinished);
-            Assert.AreEqual(Color.Black, game.Winner);
+            Assert.AreEqual(Status.Black, game.Winner);
         }
 
         [TestMethod]
@@ -84,7 +84,7 @@ namespace gomoku.test
             game.MakeMove(4, 4);
 
             Assert.IsFalse(game.IsFinished);
-            Assert.AreEqual(Color.Undefined, game.Winner);
+            Assert.AreEqual(Status.Free, game.Winner);
         }
 
     }
