@@ -77,5 +77,11 @@ namespace gomoku.core
             this.x = x;
             this.y = y;
         }
+
+        public Move(Cell cell)
+        {
+            x = cell.x;
+            y = cell.y;
+        }
     }
 }

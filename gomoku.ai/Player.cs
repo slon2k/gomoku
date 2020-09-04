@@ -28,7 +28,7 @@ namespace gomoku.ai
             {
                 var cells = board.CellsToMove;
                 var cell = cells[random.Next(cells.Count)];
-                return new Move(cell.x, cell.y);
+                return new Move(cell);
             }
 
             //Looking for winning move
@@ -38,7 +38,7 @@ namespace gomoku.ai
                 newBoard.AddStone(cell);
                 if (newBoard.HasWinningCombitation())
                 {
-                    return new Move(cell.x, cell.y);
+                    return new Move(cell);
                 }
             }
 
@@ -49,7 +49,7 @@ namespace gomoku.ai
                 var newBoard = new Board(board);
                 newBoard.AddStone(cell);
                 var value = Algorithm.AlphaBetaPruning(newBoard, Depth);
-                values.Add(new Move(cell.x, cell.y), value);
+                values.Add(new Move(cell), value);
             }
             
             if (board.Turn == Status.Black)
