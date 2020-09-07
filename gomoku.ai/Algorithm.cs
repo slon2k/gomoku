@@ -7,7 +7,7 @@ namespace gomoku.ai
 {
     public class Algorithm
     {
-        private const int Infinity = 10000000;
+        private const int Infinity = Int32.MaxValue;
         
         //Minimax was used in early versions
         public static int Minimax(Board board, int depth)

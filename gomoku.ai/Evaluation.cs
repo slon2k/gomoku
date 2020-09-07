@@ -11,7 +11,7 @@ namespace gomoku.ai
         private static readonly char freeCell = Status.Free.ToChar();
         private static readonly char white = Status.White.ToChar();
         private static readonly char black = Status.Black.ToChar();
-        private static readonly IDictionary<Regex, int> Combitations = new Dictionary<Regex, int>()
+        private static readonly IDictionary<Regex, int> Combinations = new Dictionary<Regex, int>()
         {
             { Five(black), 15000 },
             { Five(white), -15000 },
@@ -88,7 +88,7 @@ namespace gomoku.ai
                 return -WinningValue;
             }
 
-            foreach (var combination in Combitations)
+            foreach (var combination in Combinations)
             {
                 var count = combination.Key.Matches(allStrings).Count;
                 value += count * combination.Value;

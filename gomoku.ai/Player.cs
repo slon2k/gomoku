@@ -1,8 +1,10 @@
 ﻿using gomoku.core;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-
+using System.Threading.Tasks;
 
 namespace gomoku.ai
 {
@@ -31,7 +33,7 @@ namespace gomoku.ai
                 return new Move(cell);
             }
 
-            //Looking for winning move
+            // Looking for winning move
             foreach (var cell in board.CellsToMove)
             {
                 var newBoard = new Board(board);
@@ -42,16 +44,29 @@ namespace gomoku.ai
                 }
             }
 
-            var values = new Dictionary<Move, int>();
-            
-            foreach (var cell in board.CellsToMove)
-            {
+            var values = new ConcurrentDictionary<Move, int>();
+
+            var watch = new Stopwatch();
+            watch.Start();
+
+            Parallel.ForEach(board.CellsToMove, cell => { 
                 var newBoard = new Board(board);
-                newBoard.AddStone(cell);
+                newBoard.AddStone(cell);                
                 var value = Algorithm.AlphaBetaPruning(newBoard, Depth);
-                values.Add(new Move(cell), value);
-            }
-            
+                values.TryAdd(new Move(cell), value);
+            });
+                   
+            //foreach (var cell in board.CellsToMove)
+            //{
+            //    var newBoard = new Board(board);
+            //    newBoard.AddStone(cell);
+            //    var value = Algorithm.AlphaBetaPruning(newBoard, Depth);
+            //    values.TryAdd(new Move(cell), value);
+            //}
+
+            watch.Stop();
+            Console.WriteLine($"Elapsed: {watch.Elapsed.TotalSeconds} seconds");          
+
             if (board.Turn == Status.Black)
             {
                 return values.OrderByDescending(x => x.Value).First().Key;
