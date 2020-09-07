@@ -41,7 +41,7 @@ namespace gomoku.ai
             {
                 var newBoard = new Board(board);
                 newBoard.AddStone(cell);
-                if (newBoard.HasWinningCombitation())
+                if (newBoard.HasWinningCombination())
                 {
                     return new Move(cell);
                 }

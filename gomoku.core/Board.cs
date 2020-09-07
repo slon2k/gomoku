@@ -48,7 +48,7 @@ namespace gomoku.core
         {
             if (IsOutOfRange(x) || IsOutOfRange(y))
             {
-                throw new ArgumentOutOfRangeException("Position does not exist 1");
+                throw new ArgumentOutOfRangeException("Position does not exist");
             }
 
             if (Position[x, y] != Status.Free)
@@ -64,7 +64,7 @@ namespace gomoku.core
         {
             if (IsOutOfRange(x) || IsOutOfRange(y))
             {
-                throw new ArgumentOutOfRangeException("Position does not exist 2");
+                throw new ArgumentOutOfRangeException("Position does not exist");
             }
             
             return Position[x, y];
@@ -187,7 +187,7 @@ namespace gomoku.core
         {
             if (IsOutOfRange(x) || IsOutOfRange(y))
             {
-                throw new ArgumentOutOfRangeException("Position does not exist 3");
+                throw new ArgumentOutOfRangeException("Position does not exist");
             }
             if (y !=0  && x != Size - 1)
             {
@@ -241,7 +241,7 @@ namespace gomoku.core
         {
             if (IsOutOfRange(x) || IsOutOfRange(y))
             {
-                throw new ArgumentOutOfRangeException("Position does not exist 4");
+                throw new ArgumentOutOfRangeException("Position does not exist");
             }
             
             if (x != 0 && y != 0)

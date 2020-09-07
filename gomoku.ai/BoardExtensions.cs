@@ -8,7 +8,7 @@ namespace gomoku.ai
     {
         private static Regex WiningCombination(char c) => new Regex($@"[^{c}]{c}{c}{c}{c}{c}[^{c}]");
 
-        public static bool HasWinningCombitation(this Board board)
+        public static bool HasWinningCombination(this Board board)
         {
             string allStrings = string.Join(string.Empty, board.AllStrings);
             var black = Status.Black.ToChar();
