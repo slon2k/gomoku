@@ -21,14 +21,17 @@ namespace gomoku.ai
                 throw new ArgumentOutOfRangeException("No empty cell");
             }
             
+            // Placing the first stone in the middle
             if (board.IsEmpty())
             {
                 return new Move(board.Size / 2, board.Size / 2);
             }
 
+            // Placing the second stone in a random cell close to the first stone 
             if (board.Cells.Count - board.FreeCells.Count == 1)
             {
-                var cells = board.CellsToMove;
+                var firstCell = board.Cells.First(c => c.color != Status.Free);
+                var cells = board.Neighbors(firstCell.x, firstCell.y);
                 var cell = cells[random.Next(cells.Count)];
                 return new Move(cell);
             }
@@ -49,13 +52,15 @@ namespace gomoku.ai
             var watch = new Stopwatch();
             watch.Start();
 
-            Parallel.ForEach(board.CellsToMove, cell => { 
+            // Evaluating cells 
+            Parallel.ForEach(board.CellsToMove, cell =>
+            {
                 var newBoard = new Board(board);
-                newBoard.AddStone(cell);                
+                newBoard.AddStone(cell);
                 var value = Algorithm.AlphaBetaPruning(newBoard, Depth);
                 values.TryAdd(new Move(cell), value);
             });
-                   
+
             //foreach (var cell in board.CellsToMove)
             //{
             //    var newBoard = new Board(board);

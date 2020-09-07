@@ -11,6 +11,8 @@ namespace gomoku.ai
         private static readonly char freeCell = Status.Free.ToChar();
         private static readonly char white = Status.White.ToChar();
         private static readonly char black = Status.Black.ToChar();
+        
+        // Patterns and values of different combinations
         private static readonly IDictionary<Regex, int> Combinations = new Dictionary<Regex, int>()
         {
             { Five(black), 15000 },
@@ -66,6 +68,7 @@ namespace gomoku.ai
                 return -WinningValue;
             }
 
+            //It is a win when you have four and it's your turn to move
             if (board.Turn == Status.Black && (
                 FourOpen(black).IsMatch(allStrings) || 
                 FourClosedLeft(black).IsMatch(allStrings) || 
@@ -88,6 +91,7 @@ namespace gomoku.ai
                 return -WinningValue;
             }
 
+            // Every combination found increases the total value
             foreach (var combination in Combinations)
             {
                 var count = combination.Key.Matches(allStrings).Count;

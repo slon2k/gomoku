@@ -26,6 +26,7 @@ namespace gomoku.core
             }
         }
 
+        // For making a copy of the board
         public Board(Board board)
         {
             Size = board.Size;
@@ -91,6 +92,7 @@ namespace gomoku.core
             get => Cells.Where(c => c.color == Status.Free).ToList();
         }
 
+        // Assuming that the best cells are in a short distance from stones on the board.
         public IList<Cell> CellsToMove
         {
             get
@@ -129,6 +131,7 @@ namespace gomoku.core
             }
         }
 
+        // Row as a string like "-----XX00-----"
         private string Row(int index)
         {
             if (IsOutOfRange(index))
@@ -161,6 +164,7 @@ namespace gomoku.core
             }
         }
 
+        // Column as a string
         private string Column(int index)
         {
             if (IsOutOfRange(index))
@@ -178,6 +182,7 @@ namespace gomoku.core
             return StringWithBorder(str.ToString());
         }
 
+        // Diagonal from down-left to up-rigth as a string 
         private string DiagonalDownUp(int x, int y)
         {
             if (IsOutOfRange(x) || IsOutOfRange(y))
@@ -231,6 +236,7 @@ namespace gomoku.core
             }
         }
 
+        // Diagonal from up-left to down-right as a string 
         private string DiagonalUpDown(int x, int y)
         {
             if (IsOutOfRange(x) || IsOutOfRange(y))
@@ -282,13 +288,34 @@ namespace gomoku.core
             }
         }
 
+        public IList<Cell> Neighbors(int x, int y)
+        {
+            var neighbors = new List<Cell>();
+            for (int i = -1; i <= 1; i++)
+            {
+                for (int j = -1; j <= 1; j++)
+                {
+                    if (IsOutOfRange(x + i) || IsOutOfRange(y + j))
+                    {
+                        continue;
+                    }
+                    if (i == 0 && j == 0)
+                    {
+                        continue;
+                    }
+                    neighbors.Add(new Cell(x + i, y + j, Cell(x + i, y + j)));
+
+                }
+            }
+            return neighbors;
+        }
+
+        // Adding borders to a string representing row, column, or diagonal 
         private string StringWithBorder(string str) => $"{Status.Border.ToChar()}{str}{Status.Border.ToChar()}";
 
         private bool IsOutOfRange(int i) => i < 0 || i >= Size;
 
     }
-
-    
 
     public struct Cell
     {

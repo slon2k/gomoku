@@ -1,4 +1,5 @@
 ﻿using gomoku.core;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace gomoku.ai

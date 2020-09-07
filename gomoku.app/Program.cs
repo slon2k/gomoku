@@ -18,7 +18,7 @@ namespace gomoku.app
             var players = new Dictionary<Status, string>
             {
                 [Status.Black] = ComputerPlayer,
-                //[Color.Black] = HumanPlayer,
+                //[Status.Black] = HumanPlayer,
                 [Status.White] = ComputerPlayer
             };
 
@@ -65,6 +65,7 @@ namespace gomoku.app
             Console.ReadLine();
         }
 
+        // Input new move from console
         private static Move InputMove()
         {
             var input = Console.ReadLine().Split(" ");

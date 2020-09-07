@@ -38,6 +38,7 @@ namespace gomoku.core
             }
         } 
 
+        // Exactly five of a type in a line
         private Regex WinningCombination(char c) => new Regex($@"[^{c}]{c}{c}{c}{c}{c}[^{c}]");
         
         private void CheckWinner()
