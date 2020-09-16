@@ -1,0 +1,41 @@
+﻿<button class="btn btn-info" @onclick="generateMove">New move</button>
+
+<div class="board">
+    @foreach (var item in game.board.Cells)
+    {
+        <CellComponent cell="@item" OnClick="@handleMove" />
+    }
+</div>
+
+<StatusComponent isFinished="@game.IsFinished" winner="@game.Winner" turn="@game.Turn" />
+
+@code {
+    [Parameter]
+    public Game game { get; set; }
+
+    private Player player { get; set; } = new Player();
+
+    private void handleMove(Move move)
+    {
+        Console.WriteLine($"Clicked: {move.x}, {move.y}");
+        game.MakeMove(move);
+    }
+
+    private void generateMove()
+    {
+        game.MakeMove(player.GetMove(game.board));
+    }
+
+}
+
+<style scoped>
+    .board {
+        margin: 20px;
+        display: grid;
+        grid-gap: 0;
+        align-items: start;
+        justify-items: start;
+        grid-template-columns: repeat(15, 50px);
+        grid-template-rows: repeat(15, 50px);
+    }
+</style>

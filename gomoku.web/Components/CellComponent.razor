@@ -1,0 +1,43 @@
+﻿<div class="@ClassName" @onclick="@handleClick">
+</div>
+
+@code {
+
+    [Parameter]
+    public Cell cell { get; set; }
+
+    [Parameter]
+    public EventCallback<Move> OnClick { get; set; }
+
+    private string ClassName => $"cell {cell.color.ToString().ToLower()}";
+
+    private void handleClick()
+    {
+        OnClick.InvokeAsync(new Move(cell.x, cell.y));
+        Console.WriteLine($"Clicked: {cell.x}, {cell.y}");
+        StateHasChanged();
+    }
+
+}
+
+
+<style scoped>
+    .cell {
+        width: 50px;
+        height: 50px;
+        border: solid red 1px;
+        background-color: aqua;
+    }
+
+        .cell.black {
+            background-color: black;
+        }
+
+        .cell.white {
+            background-color: antiquewhite;
+        }
+
+        .cell.empty {
+            background-color: grey;
+        }
+</style>

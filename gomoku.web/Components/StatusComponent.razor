@@ -1,0 +1,38 @@
+﻿@if (isFinished)
+{
+    <div>
+        <h3>@gameStatus()</h3>
+    </div>
+} else
+{
+    <div><h4>Turn: @turn</h4></div>
+}
+
+
+@code {
+    [Parameter]
+    public Status winner { get; set; }
+    
+    [Parameter]
+    public Status turn { get; set; }
+    
+    [Parameter]
+    public bool isFinished { get; set; }
+
+    private string gameStatus()
+    {
+        if (!isFinished)
+        {
+            return "The game is not finished yet";
+
+        }
+
+        if (winner == Status.Free)
+        {
+            return "The game ended in a draw";
+        }
+
+        return $"{winner} won.";
+    }
+
+}

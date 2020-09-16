@@ -1,0 +1,14 @@
+﻿@page "/"
+
+<button class="btn btn-primary" @onclick="NewGame">New Game</button>
+
+<BoardComponent game="@game" />
+
+@code {
+    private Game game = new Game();
+
+    private void NewGame()
+    {
+        game = new Game();
+    }
+}
