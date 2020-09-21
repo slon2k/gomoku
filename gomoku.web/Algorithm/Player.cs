@@ -51,22 +51,22 @@ namespace gomoku.web
             var watch = new Stopwatch();
             watch.Start();
 
-            // Evaluating cells 
-            //Parallel.ForEach(board.CellsToMove, cell =>
-            //{
-            //    var newBoard = new Board(board);
-            //    newBoard.AddStone(cell);
-            //    var value = Algorithm.AlphaBetaPruning(newBoard, Depth);
-            //    values.TryAdd(new Move(cell), value);
-            //});
-
-            foreach (var cell in board.CellsToMove)
+            // Evaluating cells
+            Parallel.ForEach(board.CellsToMove, cell =>
             {
                 var newBoard = new Board(board);
                 newBoard.AddStone(cell);
                 var value = Algorithm.AlphaBetaPruning(newBoard, Depth);
                 values.TryAdd(new Move(cell), value);
-            }
+            });
+
+            //foreach (var cell in board.CellsToMove)
+            //{
+            //    var newBoard = new Board(board);
+            //    newBoard.AddStone(cell);
+            //    var value = Algorithm.AlphaBetaPruning(newBoard, Depth);
+            //    values.TryAdd(new Move(cell), value);
+            //}
 
             watch.Stop();
             Console.WriteLine($"Elapsed: {watch.Elapsed.TotalSeconds} seconds");          
